@@ -1,3 +1,4 @@
+/* /styles/theme.css */
 /* Kilde: Morning Coffee Labs – StandardPalett.txt */
 :root {
   --mcl-bg: #fffaf4;
@@ -11,4 +12,18 @@
   --radius: 16px;
   --elev-1: 0 4px 10px rgba(0,0,0,.08);
   --elev-2: 0 10px 24px rgba(0,0,0,.12);
+}
+
+html[data-theme="dark"] {
+  --mcl-bg: #12110f;
+  --mcl-surface: #1b1a17;
+  --mcl-altbg: #3b2e23;
+  --mcl-text: #f7f3ed;
+  --mcl-muted: #cfc7bf;
+  --mcl-brand: #d7c2a8;
+  --mcl-accent: #c2a58f;
+  --mcl-outline: #2d2b28;
+  --mcl-header: #d7c2a8;
+  --elev-1: 0 4px 10px rgba(0,0,0,.6);
+  --elev-2: 0 10px 24px rgba(0,0,0,.7);
 }
