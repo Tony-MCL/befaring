@@ -24,10 +24,11 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: "npm"
+          # Viktig: ingen cache når vi ikke har lock-fil
+          check-latest: true
 
       - name: Install
-        run: npm ci || npm i
+        run: npm install --no-audit --no-fund
 
       - name: Set basePath for GitHub Pages
         run: echo "NEXT_PUBLIC_BASE_PATH=/${{ github.event.repository.name }}" >> $GITHUB_ENV
