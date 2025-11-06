@@ -1,0 +1,5 @@
+{
+  "apps": [
+    { "key": "inspection", "name": "Befarings-app", "route": "/" }
+  ]
+}
