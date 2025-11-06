@@ -1,7 +1,6 @@
-// /app/prosjekter/page.tsx
 "use client";
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import { useI18n } from "@/lib/i18n";
+import { useI18n } from "../../lib/i18n";
 
 type Project = {
   id: string;
@@ -33,22 +32,32 @@ export default function ProjectsPage() {
   const [photos, setPhotos] = useState<Photo[]>([]);
 
   useEffect(() => {
-    fetch(`${basePath}/content/apps.json`).then(r => r.json()).then((arr: Project[]) => {
-      setProjects(arr);
-    }).catch(() => setProjects([]));
+    fetch(`${basePath}/content/apps.json`)
+      .then((r) => r.json())
+      .then((arr: Project[]) => {
+        setProjects(arr);
+      })
+      .catch(() => setProjects([]));
   }, [basePath]);
 
   useEffect(() => {
-    const p = projects.find(x => x.id === pid) || projects[0] || null;
+    const p = projects.find((x) => x.id === pid) || projects[0] || null;
     setActive(p || null);
   }, [projects, pid]);
 
-  // Simple local album (Indexed by project id) using localStorage (static export friendly)
-  const albumKey = useMemo(() => active ? `album:${active.id}` : null, [active]);
+  // Notater per prosjekt (localStorage)
+  useEffect(() => {
+    if (!active) return;
+    const raw = localStorage.getItem(`notes:${active.id}`);
+    setNotes(raw ?? "");
+  }, [active]);
+
+  // Album per prosjekt (localStorage)
+  const albumKey = useMemo(() => (active ? `album:${active.id}` : null), [active]);
   useEffect(() => {
     if (!albumKey) return;
     const raw = localStorage.getItem(albumKey);
-    setPhotos(raw ? JSON.parse(raw) as Photo[] : []);
+    setPhotos(raw ? (JSON.parse(raw) as Photo[]) : []);
   }, [albumKey]);
   const saveAlbum = (arr: Photo[]) => {
     if (!albumKey) return;
@@ -67,7 +76,7 @@ export default function ProjectsPage() {
     saveAlbum([...(photos || []), ...taken]);
   };
 
-  const removePhoto = (id: string) => saveAlbum((photos || []).filter(p => p.id !== id));
+  const removePhoto = (id: string) => saveAlbum((photos || []).filter((p) => p.id !== id));
 
   return (
     <div className="grid">
@@ -75,7 +84,7 @@ export default function ProjectsPage() {
         <h2 style={{ marginTop: 0 }}>{t("projects_title")}</h2>
         {projects.length === 0 && <div className="small">{t("empty_state")}</div>}
         <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
-          {projects.map(p => (
+          {projects.map((p) => (
             <li key={p.id} style={{ marginBottom: ".5rem" }}>
               <a className="button ghost" href={`${basePath}/prosjekter/?id=${encodeURIComponent(p.id)}`}>
                 {p.name} <span className="small">({p.id})</span>
@@ -95,7 +104,9 @@ export default function ProjectsPage() {
           <ul style={{ paddingLeft: "1rem" }}>
             {(active?.docs?.length ? active.docs : ["pages/innledning.md", "pages/sikkerhet.md"])!.map((rel) => (
               <li key={rel}>
-                <a href={`${basePath}/content/${rel}`} target="_blank" rel="noreferrer">{rel.split("/").pop()}</a>
+                <a href={`${basePath}/content/${rel}`} target="_blank" rel="noreferrer">
+                  {rel.split("/").pop()}
+                </a>
               </li>
             ))}
           </ul>
@@ -109,7 +120,14 @@ export default function ProjectsPage() {
             onChange={(e) => setNotes(e.target.value)}
             onBlur={() => active && localStorage.setItem(`notes:${active.id}`, notes)}
             placeholder="Skriv notater her …"
-            style={{ width: "100%", minHeight: 120, borderRadius: 8, border: "1px solid var(--mcl-outline)", padding: ".6rem", background: "var(--mcl-bg)" }}
+            style={{
+              width: "100%",
+              minHeight: 120,
+              borderRadius: 8,
+              border: "1px solid var(--mcl-outline)",
+              padding: ".6rem",
+              background: "var(--mcl-bg)",
+            }}
           />
         </div>
       </section>
@@ -117,7 +135,9 @@ export default function ProjectsPage() {
       <section className="card">
         <h3 style={{ marginTop: 0 }}>{t("album")}</h3>
         <div style={{ display: "flex", gap: ".5rem", flexWrap: "wrap", marginBottom: ".6rem" }}>
-          <button className="button" onClick={onPick}>{t("upload_images")}</button>
+          <button className="button" onClick={onPick}>
+            {t("upload_images")}
+          </button>
           <input
             ref={inputRef}
             type="file"
@@ -129,10 +149,16 @@ export default function ProjectsPage() {
           />
         </div>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(110px, 1fr))", gap: ".5rem" }}>
-          {(photos || []).map(ph => (
+          {(photos || []).map((ph) => (
             <figure key={ph.id} style={{ margin: 0 }}>
-              <img src={ph.dataUrl} alt="" style={{ width: "100%", height: 110, objectFit: "cover", borderRadius: 8, border: "1px solid var(--mcl-outline)" }} />
-              <button className="button ghost small" style={{ marginTop: ".25rem", width: "100%" }} onClick={() => removePhoto(ph.id)}>Fjern</button>
+              <img
+                src={ph.dataUrl}
+                alt=""
+                style={{ width: "100%", height: 110, objectFit: "cover", borderRadius: 8, border: "1px solid var(--mcl-outline)" }}
+              />
+              <button className="button ghost small" style={{ marginTop: ".25rem", width: "100%" }} onClick={() => removePhoto(ph.id)}>
+                Fjern
+              </button>
             </figure>
           ))}
         </div>
