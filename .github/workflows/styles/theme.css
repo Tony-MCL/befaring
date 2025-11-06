@@ -1,0 +1,14 @@
+/* Kilde: Morning Coffee Labs – StandardPalett.txt */
+:root {
+  --mcl-bg: #fffaf4;
+  --mcl-surface: #ffffff;
+  --mcl-text: #1b1a17;
+  --mcl-muted: #6b655f;
+  --mcl-brand: #8b5e34;
+  --mcl-accent: #b08968;
+  --mcl-outline: #e8dfd5;
+  --mcl-header: #d7c2a8;
+  --radius: 16px;
+  --elev-1: 0 4px 10px rgba(0,0,0,.08);
+  --elev-2: 0 10px 24px rgba(0,0,0,.12);
+}
