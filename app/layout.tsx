@@ -1,9 +1,9 @@
 import "./globals.css";
-import { I18nProvider, useI18n } from "@/lib/i18n";
-import ThemeToggle from "@/components/ThemeToggle";
-import LangToggle from "@/components/LangToggle";
-import Link from "next/link";
 import React from "react";
+import ThemeToggle from "../components/ThemeToggle";
+import LangToggle from "../components/LangToggle";
+import Link from "next/link";
+import { I18nProvider, useI18n } from "../lib/i18n";
 
 function Header() {
   const { t, basePath } = useI18n();
@@ -35,14 +35,16 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="no">
       <head>
         {/* Initial theme (prevents flash) */}
-        <script dangerouslySetInnerHTML={{
-          __html: `
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
             try{
               const m = localStorage.getItem('theme') || 'light';
               document.documentElement.setAttribute('data-theme', m);
             }catch(e){}
-          `
-        }} />
+          `,
+          }}
+        />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
       <body>
