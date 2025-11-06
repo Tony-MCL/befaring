@@ -1,17 +1,20 @@
-/* /app/globals.css */
 @import "../styles/theme.css";
 
 * { box-sizing: border-box; }
 html, body { height: 100%; }
 html { background: var(--mcl-bg); color: var(--mcl-text); }
-body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, 'Helvetica Neue', Arial, 'Noto Sans', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; }
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, 'Helvetica Neue', Arial, 'Noto Sans', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+}
 
 a { color: inherit; text-decoration: none; }
 .container { max-width: 1100px; margin: 0 auto; padding: 1rem; }
 
+/* Header / toolbar */
 .header {
   position: sticky; top: 0; z-index: 10;
-  background: var(--mcl-surface);
+  background: var(--mcl-header);           /* ← bruker eksisterende variabel */
   box-shadow: var(--elev-1);
   border-bottom: 1px solid var(--mcl-outline);
 }
@@ -22,15 +25,39 @@ a { color: inherit; text-decoration: none; }
 .brand { display: flex; align-items: center; gap: .6rem; font-weight: 700; }
 .brand img { width: 28px; height: 28px; border-radius: 8px; }
 
-.nav { display: flex; gap: .6rem; flex-wrap: wrap; }
+/* Nav (flate lenker/knapper i toolbar) */
+.nav { display: flex; gap: .2rem .4rem; flex-wrap: wrap; }
 .nav a {
-  padding: .45rem .7rem; border-radius: 999px; background: var(--mcl-bg);
-  border: 1px solid var(--mcl-outline);
+  background: none;                       /* flate */
+  border: none;
+  box-shadow: none;
+  color: var(--mcl-text);
+  padding: .45rem .7rem;
+  border-radius: 8px;
+  font-weight: 500;
+  transition: color .2s ease, background .2s ease;
 }
-.nav a:hover { background: var(--mcl-surface); }
+.nav a:hover { background: rgba(0,0,0,.05); color: var(--mcl-brand); }
 
-.toolbar { display: flex; gap: .5rem; align-items: center; }
+/* Verktøylinje (språk/tema) – samme flate stil */
+.toolbar { display: flex; gap: .25rem; align-items: center; }
+.button {
+  background: none;
+  color: var(--mcl-text);
+  border: none;
+  box-shadow: none;
+  padding: .45rem .7rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: color .2s ease, background .2s ease, opacity .1s ease;
+}
+.button:hover { background: rgba(0,0,0,.05); color: var(--mcl-brand); }
+.button:active { opacity: .7; }
+.button.secondary { color: var(--mcl-accent); }
+.button.ghost { color: var(--mcl-muted); }
 
+/* Cards og layout */
 .card {
   background: var(--mcl-surface);
   border: 1px solid var(--mcl-outline);
@@ -38,32 +65,7 @@ a { color: inherit; text-decoration: none; }
   border-radius: var(--radius);
   padding: 1rem;
 }
-
 .grid { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
-
-.button {
-  background: none;
-  color: var(--mcl-text);
-  border: none;
-  padding: .45rem .7rem;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: 500;
-  transition: color .2s ease, background .2s ease;
-}
-.button:hover {
-  background: var(--mcl-surface);
-  color: var(--mcl-brand);
-}
-.button:active {
-  opacity: .7;
-}
-.button.secondary {
-  color: var(--mcl-accent);
-}
-.button.ghost {
-  color: var(--mcl-muted);
-}
 
 .small { font-size: .9rem; color: var(--mcl-muted); }
 
