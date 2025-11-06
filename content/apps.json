@@ -1,0 +1,9 @@
+[
+  {
+    "id": "P-0001",
+    "name": "Demo-prosjekt",
+    "owner": "mcl",
+    "members": ["felt1", "felt2"],
+    "docs": ["pages/innledning.md", "pages/sikkerhet.md"]
+  }
+]
