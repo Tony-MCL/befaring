@@ -13,8 +13,17 @@
     "paths": {
       "@/*": ["./*"]
     },
-    "types": ["node", "react", "react-dom"]
+
+    /* Next.js required/suggested */
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "skipLibCheck": true,
+    "incremental": true
   },
-  "include": ["**/*.ts", "**/*.tsx"],
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts"
+  ],
   "exclude": ["node_modules"]
 }
