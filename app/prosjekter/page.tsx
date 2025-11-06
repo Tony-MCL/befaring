@@ -53,6 +53,55 @@ function ProjectCard({ p, onOpen, onDelete }: { p: Project; onOpen: () => void; 
   );
 }
 
+/** Demo-knapp for å fylle inn eksempelprosjekter */
+function DemoButton({
+  setProjects,
+  setActiveId
+}: {
+  setProjects: React.Dispatch<React.SetStateAction<Project[]>>;
+  setActiveId: React.Dispatch<React.SetStateAction<string | null>>;
+}) {
+  const { t } = useI18n();
+  return (
+    <button
+      className="button"
+      type="button"
+      onClick={() => {
+        const demo: Project[] = [
+          {
+            id: uid(),
+            title: "Hodnaberg – Kontrollrom befaring",
+            owner: "Prosjektleder",
+            users: [{ id: uid(), name: "Feltbruker 1" }],
+            notes: "Sjekk kabelmottak, dokumenter skapplass og adkomst.",
+            docs: [
+              { id: uid(), title: "Befaringssjekkliste (MD)", url: "/content/pages/om.md" },
+              { id: uid(), title: "Kontaktinfo", url: "/content/pages/kontakt.md" }
+            ],
+            images: [],
+            createdAt: Date.now()
+          },
+          {
+            id: uid(),
+            title: "Lang-Sima – Turbinhall",
+            owner: "Salgsleder",
+            users: [{ id: uid(), name: "Feltbruker 2" }, { id: uid(), name: "Foto" }],
+            notes: "Fokus: Rørgater, arbeidsveier, løftepunkter.",
+            docs: [{ id: uid(), title: "Prosjektbeskrivelse", url: "/content/pages/forside.md" }],
+            images: [],
+            createdAt: Date.now() - 1000 * 60 * 60 * 24
+          }
+        ];
+        setProjects(demo);
+        setActiveId(demo[0].id);
+      }}
+      aria-label={t("add_demo")}
+    >
+      {t("add_demo")}
+    </button>
+  );
+}
+
 export default function ProjectsPage() {
   const { t } = useI18n();
   const [projects, setProjects] = useState<Project[]>([]);
@@ -114,7 +163,9 @@ export default function ProjectsPage() {
         <h2 style={{ marginTop: 0 }}>{t("projects_title")}</h2>
         <CreateProject onCreate={createProject} />
         {projects.length === 0 ? (
-          <p className="small">{t("empty_state")} <DemoButton setProjects={setProjects} setActiveId={setActiveId} /></p>
+          <p className="small">
+            {t("empty_state")} <DemoButton setProjects={setProjects} setActiveId={setActiveId} />
+          </p>
         ) : (
           <div style={{ display: "grid", gap: ".6rem" }}>
             {projects.map(p => (
@@ -278,7 +329,7 @@ function ProjectDetails(props: {
 
       {/* Images */}
       <section>
-        <h3 style={{ marginTop: 0 }}>{/* i18n key exists, but label here is more explicit */}Bilder / Album</h3>
+        <h3 style={{ marginTop: 0 }}>Bilder / Album</h3>
         <div style={{ display: "flex", gap: ".5rem", flexWrap: "wrap", marginBottom: ".5rem" }}>
           <button className="button" onClick={onAddImagesClick}>Ta bilde / Last opp</button>
         </div>
